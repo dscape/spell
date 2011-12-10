@@ -1,7 +1,8 @@
 /* javascript spell checker based on
 *  http://norvig.com/spell-correct.html
  *
- * copyright 2011 nuno job <nunojob.com> (oO)--',--
+ * copyright 2011 nuno job       <nunojob.com> (oO)--',--
+ *                pedro teixeira <metaduck.com>
  *
  * licensed under the apache license, version 2.0 (the "license");
  * you may not use this file except in compliance with the license.
@@ -19,14 +20,15 @@
   // dictionary is a object with two functions
   // `get` to retrieve a stored dictionary from disk/memory
   // `store` to store a dictionary from disk/memory
-  function dict(dictionary) {
+  function dict(dict_store) {
 var default_spell = {}
   // if we have a dictionary already in disk use it
-  , spell         = dictionary.get() || default_spell
+  , spell         = dict_store.get() || default_spell
   , noop          = function(){}
+  , alphabet      = "abcdefghijklmnopqrstuvwxyz".split("")
   ;
 
-function spell_store(cb) { dictionary.store(spell, cb); }
+function spell_store(cb) { dict_store.store(spell, cb); }
 
 function spell_train(corpus,regex) {
   var match, word;
@@ -34,8 +36,38 @@ function spell_train(corpus,regex) {
   corpus        = corpus.toLowerCase();
   while ((match = regex.exec(corpus))) {
     word              = match[0];
-    spell_insert_word(word);
+    spell_insert_word(word, 1);
   }
+}
+
+function spell_edits(word) {
+  var edits = []
+    , i
+    , j
+    ;
+  for (i=0; i < word.length; i++) {  // deletion
+    edits.push(word.slice(0, i) + word.slice(i+1));
+  }
+  for (i=0; i < word.length-1; i++) { // transposition
+    edits.push( word.slice(0, i) + word.slice(i+1, i+2) + 
+      word.slice(i, i+1) + word.slice(i+2));
+  }
+  for (i=0; i < word.length; i++) {  // alteration
+    for(j in alphabet) { 
+      edits.push(word.slice(0, i) + alphabet[j] + word.slice(i+1)); 
+    }
+  }
+  for (i=0; i <= word.length; i++) { // insertion
+    for(j in alphabet) { 
+      edits.push(word.slice(0, i) + alphabet[j] + word.slice(i));
+    }
+  }
+  return edits;
+}
+
+function is_empty(object) { 
+  for (var key in obj) { if (hasOwnProperty.call(obj, key)) return false; }
+  return true;
 }
 
 /*
@@ -85,7 +117,7 @@ function spell_load(opts) {
 }
 
 /*
- * insert_word
+ * add word
  *
  * loads a word into the dictionary
  *
@@ -108,12 +140,13 @@ function spell_add_word(word, opts) {
   opts.count  = opts.count  || 1;
   opts.store  = opts.store  || true;
   opts.done   = opts.done   || noop;
-  spell[word] = spell[word] ? spell[word] + opts.count : opts.count;
+  spell[word] = 
+    spell.hasOwnProperty(word) ? spell[word] + opts.count : opts.count;
   if(opts.store) { spell_store(opts.done); }
 }
 
 /*
- * removes
+ * remove word
  *
  * removes word from the dictionary
  *
@@ -133,12 +166,49 @@ function spell_remove_word(word,opts) {
   opts        = 'object' === typeof opts ? opts : {};
   opts.store  = opts.store  || true;
   opts.done   = opts.done   || noop;
-  if (spell[word]) { delete spell[word]; }
+  if (spell.hasOwnProperty(word)) { delete spell[word]; }
   if(opts.store) { spell_store(opts.done); }
 }
 
+/*
+ * suggest
+ *
+ * returns spelling sugestions for a given word
+ *
+ * e.g.
+ * spell.suggest('speling');
+ *
+ * @param {word:string:required} 
+ *        the word you want to spell check
+ *
+ * @return {array} ordered array containing json objects such as
+ *                 [{"word": "spelling", "score": 10}]
+ */
 function spell_suggest(word) {
-  
+  if (spell.hasOwnProperty(word)) { return word; }
+  var edits1     = spell_edits(word)
+    , candidates = {}
+    , min
+    , max
+    , edits2
+    , current_count
+    ;
+  function get_candidates(word) {
+    if(spell.hasOwnProperty(word)) {
+      current_count = spell[word];
+      candidates[current_count] = candidates.hasOwnProperty(current_count) ?
+        candidates[current_count].push(word) : [word];
+      max = max ? (max < current_count ? current_count : max) : current_count;
+      min = min ? (min > current_count ? min : current_count) : current_count;
+    }
+  }
+  edits1.forEach(get_candidates);
+  if(!is_empty(candidates)) { return spell_order(candidates,min,max); }
+  edits1.forEach(function(edit1){
+    spell_edits(edit1).forEach(get_candidates);
+  });
+  if(!is_empty(candidates)) { return spell_order(candidates,min,max); }
+  return []; // no suggestions
 }
 
 return { reset       : spell_reset
