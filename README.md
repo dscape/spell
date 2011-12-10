@@ -1,6 +1,6 @@
 # spell
 
-`spell` is a dictionary module for `node.js`. for an explanation of the algorithm, performance, expectations, and techniques used used please read [this article][norvig]
+`spell` is a dictionary module for `node.js`. for an explanation of the algorithm, performance, expectations, and techniques used please read [this article][norvig]
 
 # installation
 
@@ -8,7 +8,7 @@
 
 1. install [npm]
 2. `npm install spell`
-3. `var spell = require('spell')`
+3. `var spell = require('spell');`
 
 ## browser
 
