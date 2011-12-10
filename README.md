@@ -109,10 +109,14 @@ an example using `localStorage`:
 
 ``` js
 var dict = spell(
-  { "get"   : function () { JSON.parse(window.localStorage.getItem('dict')); }
-  , "store" : function (d) { 
-                window.localStorage.setItem('dict', JSON.stringify(d));
-              }
+  { corpus:
+    { "get"   : function () { 
+                  JSON.parse(window.localStorage.getItem('dict')); 
+                }
+    , "store" : function (d,after_store) { 
+                  window.localStorage.setItem('dict', JSON.stringify(d));
+                }
+    }
   }
 );
 ```
