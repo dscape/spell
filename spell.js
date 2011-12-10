@@ -222,7 +222,9 @@ function spell_remove_word(word,opts) {
  *                 [{"word": "spelling", "score": 10}]
  */
 function spell_suggest(word) {
-  if (dict.hasOwnProperty(word)) { return word; }
+  if (dict.hasOwnProperty(word)) {
+    return [{"word":word, "score": dict[word]}]; 
+  }
   var edits1     = spell_edits(word)
     , candidates = {}
     , min
@@ -247,11 +249,34 @@ function spell_suggest(word) {
   return []; // no suggestions
 }
 
+/*
+ * feeling lucky
+ *
+ * returns the first spelling correction for a word
+ *
+ * e.g.
+ * spell.lucky('speling');
+ *
+ * @param {word:string:required} 
+ *        the word you want to spell check
+ *
+ * @return {string} the most likely match
+ */
+function spell_lucky(word) {
+  var suggest = spell_suggest(word)[0];
+  if(suggest.hasOwnProperty("word")) {
+    return suggest.word;
+  }
+  return;
+}
+
+
 return { reset       : spell_reset
        , load        : spell_load
        , add_word    : spell_add_word
        , remove_word : spell_remove_word
        , suggest     : spell_suggest
+       , lucky       : spell_lucky
        };
   };
 
