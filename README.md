@@ -103,7 +103,7 @@ dict.add_word('beer', 100);
 
 ## storage
 
-by default things are stored in memory in process for each dictionary instance you create. however if you feel like storing the dictionary externally, or using a shared dictionary, you can use the `dict_store` functionality.
+by default `dict` is stored in process (memory) for each dictionary instance you create. however if you feel like storing the dictionary externally, or using a shared dictionary, you can use the `dict_store` functionality.
 
 an example using `localStorage`:
 
