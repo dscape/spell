@@ -8,11 +8,18 @@
 
 1. install [npm]
 2. `npm install spell`
+3. `var spell = require('spell')`
 
 ## browser
 
 1. minimize spell.js
 2. load it into your webpage
+
+# usage
+
+
+
+# storage
 
 # roadmap
 

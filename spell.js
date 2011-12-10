@@ -80,7 +80,7 @@ function spell_edits(word) {
 }
 
 function is_empty(object) { 
-  for (var key in obj) { if (hasOwnProperty.call(obj, key)) return false; }
+  for (var key in obj) { if (obj.hasOwnProperty(key)) return false; }
   return true;
 }
 
