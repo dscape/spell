@@ -19,7 +19,6 @@
 (function () {
   var root            = this
     , previous_spell  = root.spell
-    , spell
     ;
 
   /*
@@ -34,15 +33,21 @@
    *
    * @return {object} a dictionary module
    */
-  function dictionary(dict_store) {
+  var spell = function dictionary(dict_store) {
 var default_dict = {}
-  // if we have a dictionary already in disk use it
-  , dict          = dict_store.get() || default_dict
+  // if we have a dictionary already in store use it
+  , dict          = (dict_store && dict_store.get) || default_dict
   , noop          = function(){}
   , alphabet      = "abcdefghijklmnopqrstuvwxyz".split("")
   ;
 
-function spell_store(cb) { dict_store.store(dict, cb); }
+function spell_store(cb) { 
+  if (dict_store.hasOwnProperty('store')) {
+    dict_store.store(dict, cb);
+  } else {
+    console.log('trying to save a dictionary without providing a store');
+  }
+}
 
 function spell_train(corpus,regex) {
   var match, word;
@@ -135,6 +140,7 @@ function spell_reset() { return spell_load({reset: true}); }
  * @return void
  */
 function spell_load(opts) {
+  if ('string' === typeof opts) { opts = {corpus: opts }; }
   opts        = 'object' === typeof opts ? opts : {};
   opts.reset  = opts.reset  || true;
   opts.store  = opts.store  || true;
@@ -247,5 +253,25 @@ return { reset       : spell_reset
        , remove_word : spell_remove_word
        , suggest     : spell_suggest
        };
-}
+  };
+
+  spell._previous = previous_spell;
+  if (typeof exports !== 'undefined') { // nodejs
+    spell.platform     = { name: "node.js", version: process.version };
+    spell.version      = JSON.parse(
+      require('fs').readFileSync(__dirname + "/package.json")).version;
+    spell.path         = __dirname;
+    if (typeof module !== 'undefined' && module.exports) {
+      exports = module.exports = spell;
+    }
+    exports.spell = spell;
+  } else { // browser
+    // browser detection is possible in the future
+    spell.platform     = { name: "browser" };
+    spell.version      = "0.0.1";
+    if (typeof define === 'function' && define.amd) {
+      define('spell', function() { return spell; });
+    } 
+    else { root.spell = spell; }
+  }
 })();

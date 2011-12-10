@@ -17,9 +17,44 @@
 
 # usage
 
+## basics
 
+``` js
+// instantiate a new dictionary
+var dict = spell();
+// load text into dictionary so we can train the dictionary to know
+// which words exists and which ones are more frequent than others
+dict.load('I am going to the park today. It's going to be great');
+console.log(dict.suggest('te'));
+```
 
-# storage
+should return
+
+``` js
+[{"word": "to", "score": 2}, {"word": "be", "score": "1"}]
+```
+
+as there are two occurrences of the word `to` and one of the word `be`
+
+you can also `add` and `remove` words from the dictionary:
+
+``` js
+dict.remove_word('park');
+dict.add_word('nuno');
+```
+
+and you can `reset` the dictionary, making it empty:
+
+``` js
+dict.reset();
+```
+
+## advanced
+
+talk about giving a dictionary instead of words
+talk about giving a weight to add word
+
+## storage
 
 # roadmap
 
