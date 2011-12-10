@@ -103,6 +103,20 @@ dict.add_word('beer', 100);
 
 ## storage
 
+by default things are stored in memory in process for each dictionary instance you create. however if you feel like storing the dictionary externally, or using a shared dictionary, you can use the `dict_store` functionality.
+
+an example using `localStorage`:
+
+``` js
+var dict = spell(
+  { "get"   : function () { JSON.parse(window.localStorage.getItem('dict')); }
+  , "store" : function (d) { 
+                window.localStorage.setItem('dict', JSON.stringify(d));
+              }
+  }
+);
+```
+
 # roadmap
 
 check [issues]

@@ -36,7 +36,8 @@
   var spell = function dictionary(dict_store) {
 var default_dict = {}
   // if we have a dictionary already in store use it
-  , dict          = (dict_store && dict_store.get) || default_dict
+  , dict          = dict_store && typeof dict_store.get === 'function' ?
+      dict_store.get() : default_dict
   , noop          = function(){}
   , alphabet      = "abcdefghijklmnopqrstuvwxyz".split("")
   ;
