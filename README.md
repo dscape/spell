@@ -28,7 +28,7 @@ dict.load("I am going to the park today. It's going to be great");
 console.log(dict.suggest('te'));
 ```
 
-normally you would generate the dictionary once and then use it to this code is unlikely  and serves for demonstration purposes only. this should return:
+normally you would generate the dictionary once and then use it to this code is unlikely  and serves for demonstration purposes only. this should log:
 
 ``` js
 [{"word": "to", "score": 2}, {"word": "be", "score": 1}]
@@ -83,7 +83,7 @@ you can also provide options:
 
 * `reset`, defaults to true, meaning it will reset the dictionary before running load
 * `store`, defaults to true, meaning it will store the dictionary after running load
-* `after_store`, defaults to empty function, the callback function to run after `store` was done. in the normal` node.js` fashion first argument will be the `error`.
+* `after_store`, defaults to empty function, the callback function to run after `store` was done.
 
 e.g. to add text to an existing `dict` you could do:
 
