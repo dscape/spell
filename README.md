@@ -36,6 +36,18 @@ normally you would generate the dictionary once and then use it to this code is 
 
 as there are two occurrences of the word `to` and one of the word `be`
 
+feeling lucky?
+
+``` js
+dict.lucky('te');
+```
+
+returns:
+
+``` js
+"to"
+```
+
 you can also `add` and `remove` words from the dictionary:
 
 ``` js
