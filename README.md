@@ -24,7 +24,7 @@
 var dict = spell();
 // load text into dictionary so we can train the dictionary to know
 // which words exists and which ones are more frequent than others
-dict.load('I am going to the park today. It's going to be great');
+dict.load("I am going to the park today. It's going to be great");
 console.log(dict.suggest('te'));
 ```
 
