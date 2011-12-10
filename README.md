@@ -83,7 +83,7 @@ you can also provide options:
 
 * `reset`, defaults to true, meaning it will reset the dictionary before running load
 * `store`, defaults to true, meaning it will store the dictionary after running load
-* `after_store`, defaults to empty function, the callback function to run after `store` was done.
+* `after_store`, defaults to empty function, the callback function to run after `store` is done
 
 e.g. to add text to an existing `dict` you could do:
 
