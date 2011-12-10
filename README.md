@@ -31,7 +31,7 @@ console.log(dict.suggest('te'));
 should return
 
 ``` js
-[{"word": "to", "score": 2}, {"word": "be", "score": "1"}]
+[{"word": "to", "score": 2}, {"word": "be", "score": 1}]
 ```
 
 as there are two occurrences of the word `to` and one of the word `be`
