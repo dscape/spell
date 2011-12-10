@@ -17,25 +17,39 @@
  * limitations under the license.
  */
 (function () {
-  // dictionary is a object with two functions
-  // `get` to retrieve a stored dictionary from disk/memory
-  // `store` to store a dictionary from disk/memory
-  function dict(dict_store) {
-var default_spell = {}
+  var root            = this
+    , previous_spell  = root.spell
+    , spell
+    ;
+
+  /*
+   * dictionary
+   *
+   * creates a dictionary given a place to store
+   *
+   * @param {dict_store:object:required} 
+   *        object that implements two functions
+   *          `get` to retrieve a stored dictionary from disk/memory
+   *          `store` to store a dictionary from disk/memory
+   *
+   * @return {object} a dictionary module
+   */
+  function dictionary(dict_store) {
+var default_dict = {}
   // if we have a dictionary already in disk use it
-  , spell         = dict_store.get() || default_spell
+  , dict          = dict_store.get() || default_dict
   , noop          = function(){}
   , alphabet      = "abcdefghijklmnopqrstuvwxyz".split("")
   ;
 
-function spell_store(cb) { dict_store.store(spell, cb); }
+function spell_store(cb) { dict_store.store(dict, cb); }
 
 function spell_train(corpus,regex) {
   var match, word;
   regex         = regexp || /[a-z]+/g;
   corpus        = corpus.toLowerCase();
   while ((match = regex.exec(corpus))) {
-    word              = match[0];
+    word        = match[0];
     spell_insert_word(word, 1);
   }
 }
@@ -68,6 +82,23 @@ function spell_edits(word) {
 function is_empty(object) { 
   for (var key in obj) { if (hasOwnProperty.call(obj, key)) return false; }
   return true;
+}
+
+function spell_order(candidates, min, max) {
+  var ordered_candidates = []
+    , current
+    , i
+    , j
+    ;
+  for(i=max; i>=min; i--) {
+    if(candidates.hasOwnProperty(i)) {
+      current = candidates[i];
+      for (j in current) { 
+        ordered_candidates.push({"word": current, "score": i});
+      }
+    }
+  }
+  return ordered_candidates;
 }
 
 /*
@@ -109,10 +140,10 @@ function spell_load(opts) {
   opts.store  = opts.store  || true;
   opts.done   = opts.done   || noop;
   opts.corpus = opts.corpus || '';
-  if(opts.reset) { spell  = default_spell; }
+  if(opts.reset) { dict  = default_dict; }
   if('object' === typeof opts.corpus) {
     for(var key in corpus) { spell_insert_word(key, opts.corpus[key]); }
-  } else { spell.train(opts.corpus); }
+  } else { spell_train(opts.corpus); }
   if(opts.store) { spell_store(opts.done); }
 }
 
@@ -140,8 +171,8 @@ function spell_add_word(word, opts) {
   opts.count  = opts.count  || 1;
   opts.store  = opts.store  || true;
   opts.done   = opts.done   || noop;
-  spell[word] = 
-    spell.hasOwnProperty(word) ? spell[word] + opts.count : opts.count;
+  dict[word] = 
+    dict.hasOwnProperty(word) ? dict[word] + opts.count : opts.count;
   if(opts.store) { spell_store(opts.done); }
 }
 
@@ -166,7 +197,7 @@ function spell_remove_word(word,opts) {
   opts        = 'object' === typeof opts ? opts : {};
   opts.store  = opts.store  || true;
   opts.done   = opts.done   || noop;
-  if (spell.hasOwnProperty(word)) { delete spell[word]; }
+  if (dict.hasOwnProperty(word)) { delete dict[word]; }
   if(opts.store) { spell_store(opts.done); }
 }
 
@@ -185,7 +216,7 @@ function spell_remove_word(word,opts) {
  *                 [{"word": "spelling", "score": 10}]
  */
 function spell_suggest(word) {
-  if (spell.hasOwnProperty(word)) { return word; }
+  if (dict.hasOwnProperty(word)) { return word; }
   var edits1     = spell_edits(word)
     , candidates = {}
     , min
@@ -194,8 +225,8 @@ function spell_suggest(word) {
     , current_count
     ;
   function get_candidates(word) {
-    if(spell.hasOwnProperty(word)) {
-      current_count = spell[word];
+    if(dict.hasOwnProperty(word)) {
+      current_count = dict[word];
       candidates[current_count] = candidates.hasOwnProperty(current_count) ?
         candidates[current_count].push(word) : [word];
       max = max ? (max < current_count ? current_count : max) : current_count;
