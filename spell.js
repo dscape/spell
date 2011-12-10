@@ -221,7 +221,6 @@ function spell_suggest(word) {
     , candidates = {}
     , min
     , max
-    , edits2
     , current_count
     ;
   function get_candidates(word) {
