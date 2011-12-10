@@ -28,7 +28,7 @@ dict.load("I am going to the park today. It's going to be great");
 console.log(dict.suggest('te'));
 ```
 
-should return
+normally you would generate the dictionary once and then use it to this code is unlikely  and serves for demonstration purposes only. this should return:
 
 ``` js
 [{"word": "to", "score": 2}, {"word": "be", "score": 1}]
@@ -51,8 +51,43 @@ dict.reset();
 
 ## advanced
 
-talk about giving a dictionary instead of words
-talk about giving a weight to add word
+when loading you can provide a compiled dictionary instead of free form text
+
+``` js
+dict.load(
+  { corpus: 
+    { "I"     : 1
+    , "am"    : 1
+    , "going" : 1
+    , "to"    : 2
+    , "the"   : 1
+    , "park"  : 1
+    }
+  }
+);
+```
+
+you can also provide options:
+
+* `reset`, defaults to true, meaning it will reset the dictionary before running load
+* `store`, defaults to true, meaning it will store the dictionary after running load
+* `after_store`, defaults to empty function, the callback function to run after `store` was done. in the normal` node.js` fashion first argument will be the `error`.
+
+e.g. to add text to an existing `dict` you could do:
+
+``` js
+dict.load(
+  { corpus: "Better yet, chocolate"
+  , reset: false
+  }
+);
+```
+
+finally when adding words you can optionally give it a score:
+
+``` js
+dict.add_word('beer', 100);
+```
 
 ## storage
 

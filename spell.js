@@ -134,23 +134,23 @@ function spell_reset() { return spell_load({reset: true}); }
  *        to what already exists
  * @param {opts.store:boolean:optional}
  *        decide if you want to use storage
- * @param {opts.done:function:optional} 
+ * @param {opts.after_store:function:optional} 
  *        function to call back when store is done
  *
  * @return void
  */
 function spell_load(opts) {
   if ('string' === typeof opts) { opts = {corpus: opts }; }
-  opts        = 'object' === typeof opts ? opts : {};
-  opts.reset  = opts.reset  || true;
-  opts.store  = opts.store  || true;
-  opts.done   = opts.done   || noop;
-  opts.corpus = opts.corpus || '';
+  opts               = 'object' === typeof opts ? opts : {};
+  opts.reset         = opts.reset         || true;
+  opts.store         = opts.store         || true;
+  opts.after_store   = opts.after_store   || noop;
+  opts.corpus        = opts.corpus        || '';
   if(opts.reset) { dict  = default_dict; }
   if('object' === typeof opts.corpus) {
     for(var key in corpus) { spell_insert_word(key, opts.corpus[key]); }
   } else { spell_train(opts.corpus); }
-  if(opts.store) { spell_store(opts.done); }
+  if(opts.store) { spell_store(opts.after_store); }
 }
 
 /*
