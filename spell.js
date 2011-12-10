@@ -79,7 +79,7 @@ function spell_edits(word) {
   return edits;
 }
 
-function is_empty(object) { 
+function is_empty(obj) { 
   for (var key in obj) { if (obj.hasOwnProperty(key)) return false; }
   return true;
 }
