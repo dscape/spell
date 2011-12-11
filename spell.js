@@ -52,7 +52,7 @@ function spell_store(cb) {
 
 function spell_train(corpus,regex) {
   var match, word;
-  regex         = regexp || /[a-z]+/g;
+  regex         = regex || /[a-z]+/g;
   corpus        = corpus.toLowerCase();
   while ((match = regex.exec(corpus))) {
     word        = match[0];
