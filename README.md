@@ -61,6 +61,12 @@ and you can `reset` the dictionary, making it empty:
 dict.reset();
 ```
 
+if you want to export the dictionary:
+
+``` js
+dict.export();
+```
+
 ## advanced
 
 when loading you can provide a compiled dictionary instead of free form text

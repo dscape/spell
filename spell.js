@@ -271,9 +271,23 @@ function spell_lucky(word) {
   return;
 }
 
+/*
+ * export
+ *
+ * exports the dictionary
+ *
+ * e.g.
+ * spell.export();
+ *
+ * @return {json} dictionary
+ */
+function spell_export(word) {
+  return dict;
+}
 
 return { reset       : spell_reset
        , load        : spell_load
+       , "export"    : spell_export
        , add_word    : spell_add_word
        , remove_word : spell_remove_word
        , suggest     : spell_suggest
