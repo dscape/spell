@@ -45,8 +45,6 @@ var default_dict = {}
 function spell_store(cb) { 
   if (dict_store && typeof dict_store.store === 'function') {
     dict_store.store(dict, cb);
-  } else {
-    console.log('trying to save a dictionary without providing a store');
   }
 }
 

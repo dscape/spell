@@ -1,3 +1,5 @@
+if (!spell) { var spell = require('../spell.js') }
+
 describe('spell', function(){
   var corpora = 
       { readme : "I am going to the park today. It's going to be great" }
