@@ -9,15 +9,14 @@ describe('spell', function(){
       { readme : "I am going to the park today. It's going to be great" }
     , readme
     ;
-  
+
   readme = spell();
   readme.load("I am going to the park with Theo today." +
               "It's going to be the bomb.");
-  
+
   describe('#export()', function(){
     it('[readme] should be export the load', function() {
-      var exported;
-      exported = readme["export"]();
+      var exported = readme["export"]();
       assert(exported.i         === 1);
       assert(exported.am        === 1);
       assert(exported.going     === 2);
@@ -28,6 +27,26 @@ describe('spell', function(){
       assert(exported.bomb      === 1);
       assert(exported.theo      === 1);
       assert(exported["with"]   === 1);
+    });
+  });
+
+  describe('#add_word()', function(){
+    it('[readme] basic usage', function() {
+      var dict = spell();
+      dict.load("One Two Three.");
+      dict.add_word("Four");
+      var exported = dict["export"]();
+      console.log(exported)
+      assert(exported.one   === 1);
+      assert(exported.two   === 1);
+      assert(exported.three === 1);
+      assert(exported.four  === 1);
+    });
+    it('[readme] advanced usage', function() {
+      var dict = spell();
+      dict.add_word("Four",500);
+      var exported = dict["export"]();
+      assert(exported.four  === 500);
     });
   });
 

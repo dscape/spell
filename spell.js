@@ -178,7 +178,8 @@ function spell_add_word(word, opts) {
   opts.count  = opts.count  || 1;
   opts.store  = opts.store  || true;
   opts.done   = opts.done   || noop;
-  dict[word] = 
+  word        = word.toLowerCase();
+  dict[word]  = 
     dict.hasOwnProperty(word) ? dict[word] + opts.count : opts.count;
   if(opts.store) { spell_store(opts.done); }
 }
@@ -316,6 +317,8 @@ return { reset       : spell_reset
     if (typeof define === 'function' && define.amd) {
       define('spell', function() { return spell; });
     } 
-    else { root.spell = spell; }
+    else {
+      root.spell = spell; 
+    }
   }
 })();
