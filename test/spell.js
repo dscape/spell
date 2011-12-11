@@ -30,6 +30,31 @@ describe('spell', function(){
     });
   });
 
+  describe('#load()', function(){
+    it('[readme] should be able to read json', function() {
+      var dict = spell()
+        , exported
+        ;
+      dict.load(
+        { corpus: 
+          { "I"     : 1
+          , "am"    : 1
+          , "going" : 1
+          , "to"    : 2
+          , "the"   : 1
+          , "park"  : 1
+          }
+      });
+      exported = dict["export"]();
+      assert(exported.i     === 1);
+      assert(exported.am    === 1);
+      assert(exported.going === 1);
+      assert(exported.to    === 2);
+      assert(exported.the   === 1);
+      assert(exported.park  === 1);
+    });
+  });
+
   describe('#add_word()', function(){
     it('[readme] basic usage', function() {
       var dict = spell()

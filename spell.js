@@ -147,7 +147,9 @@ function spell_load(opts) {
   opts.corpus        = opts.corpus        || '';
   if(opts.reset) { dict  = {}; }
   if('object' === typeof opts.corpus) {
-    for(var key in opts.corpus) { spell_add_word(key, opts.corpus[key]); }
+    for(var key in opts.corpus) { 
+      spell_add_word(key, {score: opts.corpus[key]}); 
+    }
   } else { spell_train(opts.corpus); }
   if(opts.store) { spell_store(opts.after_store); }
 }
@@ -172,6 +174,9 @@ function spell_load(opts) {
  * @return void
  */
 function spell_add_word(word, opts) {
+  if ('string' === typeof opts || 'number' === typeof opts) { 
+    opts = { score: parseInt(opts, 10) };
+  }
   opts        = 'object' === typeof opts ? opts : {};
   opts.score  = opts.score  || 1;
   opts.store  = opts.store  || true;
