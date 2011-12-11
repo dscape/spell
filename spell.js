@@ -34,10 +34,8 @@
    * @return {object} a dictionary module
    */
   var spell = function dictionary(dict_store) {
-var default_dict = {}
-  // if we have a dictionary already in store use it
-  , dict          = dict_store && typeof dict_store.get === 'function' ?
-      dict_store.get() : default_dict
+var dict          = 
+    dict_store && typeof dict_store.get === 'function' ? dict_store.get() : {}
   , noop          = function(){}
   , alphabet      = "abcdefghijklmnopqrstuvwxyz".split("")
   ;
@@ -147,7 +145,7 @@ function spell_load(opts) {
   opts.store         = opts.store         || true;
   opts.after_store   = opts.after_store   || noop;
   opts.corpus        = opts.corpus        || '';
-  if(opts.reset) { dict  = default_dict; }
+  if(opts.reset) { dict  = {}; }
   if('object' === typeof opts.corpus) {
     for(var key in opts.corpus) { spell_add_word(key, opts.corpus[key]); }
   } else { spell_train(opts.corpus); }
