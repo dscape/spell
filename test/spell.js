@@ -60,8 +60,8 @@ describe('spell', function(){
         ;
       dict.load({corpus: readme["export"]()});
       dict.reset();
-      exported = dict["export"]();
-      assert(exported   === {});
+      exported = JSON.stringify(dict["export"]());
+      assert(exported   === '{}');
     });
   });
 
