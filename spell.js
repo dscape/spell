@@ -94,13 +94,15 @@ function spell_order(candidates, min, max) {
   var ordered_candidates = []
     , current
     , i
-    , j
+    , w
     ;
   for(i=max; i>=min; i--) {
     if(candidates.hasOwnProperty(i)) {
       current = candidates[i];
-      for (j in current) { 
-        ordered_candidates.push({"word": current, "score": i});
+      for (w in current) {
+        if(current.hasOwnProperty(w)) {
+          ordered_candidates.push({"word": w, "score": i});
+        }
       }
     }
   }
@@ -235,10 +237,14 @@ function spell_suggest(word) {
   function get_candidates(word) {
     if(dict.hasOwnProperty(word)) {
       current_count = dict[word];
-      candidates[current_count] = candidates.hasOwnProperty(current_count) ?
-        candidates[current_count].push(word) : [word];
+      if (candidates.hasOwnProperty(current_count)) {
+        candidates[current_count][word] = true;
+      } else {
+        candidates[current_count] = {};
+        candidates[current_count][word] = true;
+      }
       max = max ? (max < current_count ? current_count : max) : current_count;
-      min = min ? (min > current_count ? min : current_count) : current_count;
+      min = min ? (min > current_count ? current_count : min) : current_count;
     }
   }
   edits1.forEach(get_candidates);
