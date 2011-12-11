@@ -53,6 +53,19 @@ describe('spell', function(){
     });
   });
 
+  describe('#remove_word()', function(){
+    it('[readme] removing word', function() {
+      var dict = spell()
+        , exported
+        ;
+      dict.load('the game');
+      dict.remove_word("the");
+      exported = dict["export"]();
+      assert(exported.game  === 1);
+      assert(exported.the   === undefined);
+    });
+  });
+
   describe('#reset()', function(){
     it('[readme] reset should clean contents of dict', function() {
       var dict = spell()
