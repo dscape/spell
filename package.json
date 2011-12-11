@@ -8,7 +8,9 @@
   [ "Pedro Teixeira <pedro.teixeira@gmail.com> (http://metaduck.com)" ]
 , "keywords"        : 
   ["spell", "speller", "dictionary", "nlp", "dict", "spell check"]
-, "devDependencies" : {"mocha": "0.3.6"}
+, "devDependencies" : { "mocha": "0.3.6", "should": "0.3.2" }
 , "main"            : "./spell.js"
+, "scripts"         : 
+  { "test" : "./node_modules/mocha/bin/mocha -r should test/spell.js"}
 , "engines"         : { "node": ">=0.3.6" }
 }

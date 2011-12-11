@@ -1,4 +1,8 @@
-if (!spell) { var spell = require('../spell.js') }
+if (!spell) { // node 
+  var spell  = require('../spell.js')
+    , assert = require('assert')
+    ;
+}
 
 describe('spell', function(){
   var corpora = 
