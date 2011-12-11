@@ -24,28 +24,28 @@
 var dict = spell();
 // load text into dictionary so we can train the dictionary to know
 // which words exists and which ones are more frequent than others
-dict.load("I am going to the park today. It's going to be great");
-console.log(dict.suggest('te'));
+dict.load("I am going to the park with Theo today. It's going to be the bomb");
+console.log(dict.suggest('thew'));
 ```
 
 normally you would generate the dictionary once and then use it to this code is unlikely  and serves for demonstration purposes only. this should log:
 
 ``` js
-[{"word": "to", "score": 2}, {"word": "be", "score": 1}]
+[{"word": "the", "score": 2}, {"word": "theo", "score": 1}]
 ```
 
-as there are two occurrences of the word `to` and one of the word `be`
+as there are two occurrences of the word `the` and one of the word `theo`
 
 feeling lucky?
 
 ``` js
-dict.lucky('te');
+dict.lucky('thew');
 ```
 
 returns:
 
 ``` js
-"to"
+"the"
 ```
 
 you can also `add` and `remove` words from the dictionary:
