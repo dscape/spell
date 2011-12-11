@@ -104,7 +104,7 @@ dict.load(
 finally when adding words you can optionally give it a score:
 
 ``` js
-dict.add_word('beer', 100);
+dict.add_word('beer', {score: 100});
 ```
 
 ## storage

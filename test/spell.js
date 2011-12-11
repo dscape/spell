@@ -32,20 +32,23 @@ describe('spell', function(){
 
   describe('#add_word()', function(){
     it('[readme] basic usage', function() {
-      var dict = spell();
+      var dict = spell()
+        , exported
+        ;
       dict.load("One Two Three.");
       dict.add_word("Four");
-      var exported = dict["export"]();
-      console.log(exported)
+      exported = dict["export"]();
       assert(exported.one   === 1);
       assert(exported.two   === 1);
       assert(exported.three === 1);
       assert(exported.four  === 1);
     });
-    it('[readme] advanced usage', function() {
-      var dict = spell();
-      dict.add_word("Four",500);
-      var exported = dict["export"]();
+    it('[readme] setting score', function() {
+      var dict = spell()
+        , exported
+        ;
+      dict.add_word("Four", {score: 500});
+      exported = dict["export"]();
       assert(exported.four  === 500);
     });
   });

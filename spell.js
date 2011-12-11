@@ -175,12 +175,12 @@ function spell_load(opts) {
  */
 function spell_add_word(word, opts) {
   opts        = 'object' === typeof opts ? opts : {};
-  opts.count  = opts.count  || 1;
+  opts.score  = opts.score  || 1;
   opts.store  = opts.store  || true;
   opts.done   = opts.done   || noop;
   word        = word.toLowerCase();
   dict[word]  = 
-    dict.hasOwnProperty(word) ? dict[word] + opts.count : opts.count;
+    dict.hasOwnProperty(word) ? dict[word] + opts.score : opts.score;
   if(opts.store) { spell_store(opts.done); }
 }
 
