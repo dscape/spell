@@ -53,6 +53,18 @@ describe('spell', function(){
     });
   });
 
+  describe('#reset()', function(){
+    it('[readme] reset should clean contents of dict', function() {
+      var dict = spell()
+        , exported
+        ;
+      dict.load({corpus: readme["export"]()});
+      dict.reset();
+      exported = dict["export"]();
+      assert(exported   === {});
+    });
+  });
+
   describe('#suggest()', function(){
     it('[readme] `suggest` `the` for `thew`', function() {
       var suggest = readme.suggest("thew");

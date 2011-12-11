@@ -149,7 +149,7 @@ function spell_load(opts) {
   opts.corpus        = opts.corpus        || '';
   if(opts.reset) { dict  = default_dict; }
   if('object' === typeof opts.corpus) {
-    for(var key in corpus) { spell_add_word(key, opts.corpus[key]); }
+    for(var key in opts.corpus) { spell_add_word(key, opts.corpus[key]); }
   } else { spell_train(opts.corpus); }
   if(opts.store) { spell_store(opts.after_store); }
 }
