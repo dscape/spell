@@ -1,8 +1,8 @@
 { "name"            : "spell"
-, "description"     : "dictionary module for node"
+, "description"     : "javascript dictionary module for node.js, and the browser"
 , "homepage"        : "http://github.com/dscape/spell"
 , "repository"      : "git://github.com/dscape/spell"
-, "version"         : "0.0.2"
+, "version"         : "0.0.3"
 , "author"          : "Nuno Job <nunojobpinto@gmail.com> (http://nunojob.com)"
 , "contributors"    :
   [ "Pedro Teixeira <pedro.teixeira@gmail.com> (http://metaduck.com)" ]
@@ -11,6 +11,6 @@
 , "devDependencies" : { "mocha": "0.3.6", "should": "0.3.2" }
 , "main"            : "./spell.js"
 , "scripts"         : 
-  { "test" : "./node_modules/mocha/bin/mocha -r should test/spell.js"}
+  { "test" : "./node_modules/mocha/bin/mocha --globals _test_spell -r should test/spell.js"}
 , "engines"         : { "node": ">=0.3.6" }
 }

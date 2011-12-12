@@ -324,7 +324,7 @@ return { reset       : spell_reset
   } else { // browser
     // browser detection is possible in the future
     spell.platform     = { name: "browser" };
-    spell.version      = "0.0.1";
+    spell.version      = "0.0.3";
     if (typeof define === 'function' && define.amd) {
       define('spell', function() { return spell; });
     } 

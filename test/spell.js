@@ -176,4 +176,41 @@ describe('spell', function(){
       assert(suggest[0].word  === readme.lucky("the"));
     });
   });
+
+  describe('#storage', function () {
+    it('[readme] should be able to store and load from storage', function(){
+      var err
+        , dict
+        , dict_clone
+        , dict_not_clone
+        , exported
+        , exported_not_clone
+        , node       = (typeof exports !== 'undefined')
+        , global_var = node ? global : window
+        , storage    =
+          { "get"   : function () {
+                try         { return JSON.parse(global_var._test_spell); }
+                catch (err) { return {}; }
+              }
+          , "store" : function (dict,after_store) {
+              try          { global_var._test_spell = JSON.stringify(dict); }
+              catch (err)  { return {}; }
+              }
+          }
+        ;
+      dict           = spell(storage);
+      dict.load("tucano second skin", {store: true});
+      dict_clone     = spell(storage);
+      dict_not_clone = spell();
+      exported           = dict_clone["export"]();
+      exported_not_clone = dict_not_clone["export"]();
+      assert(exported.tucano   === 1);
+      assert(exported.second   === 1);
+      assert(exported.skin     === 1);
+      assert(exported_not_clone.tucano   !== 1);
+      assert(exported_not_clone.second   !== 1);
+      assert(exported_not_clone.skin     !== 1);
+      delete global_var._test_spell; // clean up
+    });
+  });
 });
