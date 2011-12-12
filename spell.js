@@ -304,8 +304,11 @@ function spell_export(word) {
 return { reset       : spell_reset
        , load        : spell_load
        , "export"    : spell_export
+       , save        : spell_export       // alias
        , add_word    : spell_add_word
+       , addWord     : spell_add_word     // alias
        , remove_word : spell_remove_word
+       , removeWord  : spell_remove_word  // alias
        , suggest     : spell_suggest
        , lucky       : spell_lucky
        };
