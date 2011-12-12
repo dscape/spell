@@ -94,11 +94,7 @@ you can also provide options:
 e.g. to add text to an existing `dict` you could do:
 
 ``` js
-dict.load(
-  { corpus: "Better yet, chocolate"
-  , reset: false
-  }
-);
+dict.load("Better yet, chocolate", { reset: false } );
 ```
 
 finally when adding words you can optionally give it a score:

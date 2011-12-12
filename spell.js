@@ -138,11 +138,19 @@ function spell_reset() { return spell_load({reset: true}); }
  *
  * @return void
  */
-function spell_load(opts) {
-  if ('string' === typeof opts) { opts = {corpus: opts }; }
+function spell_load(corpus, opts) {
+  if ('object' === typeof corpus) { opts = corpus; }
+  if ('string' === typeof corpus) {
+    if('object' === typeof opts) {
+      opts.corpus = corpus;
+    } else {
+      opts = {corpus: corpus };
+    }
+  }
+  if ('string' === typeof opts)   { opts = {corpus: opts }; }
   opts               = 'object' === typeof opts ? opts : {};
-  opts.reset         = opts.reset         || true;
-  opts.store         = opts.store         || true;
+  opts.reset         = (opts.reset !== false);
+  opts.store         = (opts.score !== false);
   opts.after_store   = opts.after_store   || noop;
   opts.corpus        = opts.corpus        || '';
   if(opts.reset) { dict  = {}; }
@@ -206,7 +214,7 @@ function spell_add_word(word, opts) {
  */
 function spell_remove_word(word,opts) {
   opts        = 'object' === typeof opts ? opts : {};
-  opts.store  = opts.store  || true;
+  opts.store  = (opts.score !== false);
   opts.done   = opts.done   || noop;
   if (dict.hasOwnProperty(word)) { delete dict[word]; }
   if(opts.store) { spell_store(opts.done); }

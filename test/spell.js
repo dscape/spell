@@ -53,6 +53,42 @@ describe('spell', function(){
       assert(exported.the   === 1);
       assert(exported.park  === 1);
     });
+    it('[readme] load without reseting', function() {
+      var dict = spell()
+        , exported
+        ;
+      dict.load("One Two Three.");
+      dict.load({"corpus": "four", "reset": false });
+      exported = dict["export"]();
+      assert(exported.one   === 1);
+      assert(exported.two   === 1);
+      assert(exported.three === 1);
+      assert(exported.four  === 1);
+    });
+    it('[readme] load with reseting', function() {
+      var dict = spell()
+        , exported
+        ;
+      dict.load("One Two Three.");
+      dict.load({"corpus": "four", "reset": true });
+      exported = dict["export"]();
+      assert(exported.one   !== 1);
+      assert(exported.two   !== 1);
+      assert(exported.three !== 1);
+      assert(exported.four  === 1);
+    });
+    it('[readme] load with first param string', function() {
+      var dict = spell()
+        , exported
+        ;
+      dict.load("One Two Three.");
+      dict.load("four", { "reset": false });
+      exported = dict["export"]();
+      assert(exported.one   === 1);
+      assert(exported.two   === 1);
+      assert(exported.three === 1);
+      assert(exported.four  === 1);
+    });
   });
 
   describe('#add_word()', function(){
@@ -75,6 +111,22 @@ describe('spell', function(){
       dict.add_word("Four", {score: 500});
       exported = dict["export"]();
       assert(exported.four  === 500);
+    });
+    it('[readme] add word with integer', function() {
+      var dict = spell()
+        , exported
+        ;
+      dict.add_word("test", 500);
+      exported = dict["export"]();
+      assert(exported.test === 500);
+    });
+    it('[readme] add word with string', function() {
+      var dict = spell()
+        , exported
+        ;
+      dict.add_word("test", "500");
+      exported = dict["export"]();
+      assert(exported.test === 500);
     });
   });
 
