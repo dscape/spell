@@ -174,6 +174,15 @@ describe('spell', function(){
     });
   });
 
+  describe('#lucky()', function(){
+    it('[readme] with empty dict', function() {
+      var dict    = spell()
+        , lucky = dict.lucky("testing")
+        ;
+      assert(lucky  === undefined);
+    });
+  });
+
   describe('#storage', function () {
     it('[readme] should be able to store and load from storage', function(){
       var err

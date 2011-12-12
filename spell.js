@@ -281,7 +281,7 @@ function spell_suggest(word) {
  */
 function spell_lucky(word) {
   var suggest = spell_suggest(word)[0];
-  if(suggest.hasOwnProperty("word")) {
+  if(suggest && suggest.hasOwnProperty("word")) {
     return suggest.word;
   }
   return;
