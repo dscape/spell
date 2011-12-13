@@ -1,4 +1,4 @@
-exports = module.exports = 
+var PERF1 = exports = 
   { "access": "acess"
   , "accessing": "accesing"
   , "accommodation": "accomodation acommodation acomodation"
@@ -141,3 +141,4 @@ exports = module.exports =
   , "whether": "wether"
   , "wrote": "rote wote"
   };
+if(module && module.exports) { module.exports = PERF1; }

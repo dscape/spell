@@ -1,7 +1,46 @@
 if (!spell) { // node 
   var spell  = require('../spell.js')
     , assert = require('assert')
+    , fs     = require('fs')
+    , big    = JSON.parse(fs.readFileSync(__dirname + '/resources/big.json'))
+    , PERF1  = require('./resources/perf1')
+    , PERF2  = require('./resources/perf2')
     ;
+} else {
+  var big = BIG;
+}
+
+function quality(name) {
+  var dict      = spell()
+    , n         = 0
+    , bad       = 0
+    , unknown   = 0
+    , tests     = (name === '2') ? PERF2 : PERF1
+    , target
+    , start
+    , exported
+    ;
+
+  dict.load({ corpus: big });
+  exported = dict.export();
+
+  for (target in tests) {
+    if (tests.hasOwnProperty(target)) {
+      var wrongs = tests[target];
+      wrongs.split(/\s+/).forEach(function(wrong) {
+        n++;
+        var w = dict.lucky(wrong);
+        if (w !== target) {
+          bad++;
+          if (!exported.hasOwnProperty(target)) {
+            unknown++;
+          }
+        }
+      });
+    }
+  }
+
+  return { "bad": bad, "n": n, "unknown" : unknown };
 }
 
 describe('spell', function(){
@@ -217,6 +256,21 @@ describe('spell', function(){
       assert(exported_not_clone.second   !== 1);
       assert(exported_not_clone.skin     !== 1);
       delete global_var._test_spell; // clean up
+    });
+  });
+
+  describe('#quality', function(){
+    it('[perf1] less than 68 bad, 15 unknown', function() {
+      var results = quality('1');
+      assert(results.bad     <    69);
+      assert(results.unknown <    16);
+      assert(results.n       === 270);
+    });
+    it('[perf2] less than 130 bad, 43 unknown', function() {
+      var results = quality('2');
+      assert(results.bad     <   131);
+      assert(results.unknown <    44);
+      assert(results.n       === 400);
     });
   });
 });

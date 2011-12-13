@@ -2,7 +2,7 @@
 , "description"     : "javascript dictionary module for node.js, and the browser"
 , "homepage"        : "http://github.com/dscape/spell"
 , "repository"      : "git://github.com/dscape/spell"
-, "version"         : "0.0.4"
+, "version"         : "0.1.0"
 , "author"          : "Nuno Job <nunojobpinto@gmail.com> (http://nunojob.com)"
 , "contributors"    :
   [ "Pedro Teixeira <pedro.teixeira@gmail.com> (http://metaduck.com)" ]

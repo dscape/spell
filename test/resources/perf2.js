@@ -1,4 +1,4 @@
-exports = module.exports =
+var PERF2 = exports =
   { "forbidden": "forbiden"
   , "decisions": "deciscions descisions"
   , "supposedly": "supposidly"
@@ -363,3 +363,4 @@ exports = module.exports =
   , "together": "togehter"
   , "profits": "proffits"
   };
+if(module && module.exports) { module.exports = PERF2; }
