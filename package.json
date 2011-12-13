@@ -11,6 +11,12 @@
 , "devDependencies" : { "mocha": "0.3.6", "should": "0.3.2" }
 , "main"            : "./spell.js"
 , "scripts"         : 
-  { "test" : "./node_modules/mocha/bin/mocha --globals _test_spell -r should test/spell.js"}
+  { "test" : 
+      "./node_modules/mocha/bin/mocha --globals _test_spell -r should test/spell.js"
+  , "perf1" :
+    "node --prof --trace-opt --trace-bailout --trace-deopt test/perf.js 1"
+  , "perf2" :
+    "node --prof --trace-opt --trace-bailout --trace-deopt test/perf.js 2"
+  }
 , "engines"         : { "node": ">=0.3.6" }
 }
