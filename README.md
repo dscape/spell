@@ -148,6 +148,6 @@ everyone is welcome to contribute. patches, bug-fixes, new features
 `(oO)--',-` in [caos]
 
 [npm]: http://npmjs.org
-[issues]: http://github.com/dscape/nano/issues
+[issues]: http://github.com/dscape/spell/issues
 [caos]: http://caos.di.uminho.pt/
 [norvig]: http://norvig.com/spell-correct.html
