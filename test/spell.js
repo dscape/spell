@@ -22,7 +22,7 @@ function quality(name) {
     ;
 
   dict.load({ corpus: big });
-  exported = dict.export();
+  exported = dict['export']().corpus;
 
   for (target in tests) {
     if (tests.hasOwnProperty(target)) {
@@ -52,7 +52,7 @@ describe('spell', function(){
 
   describe('#export()', function(){
     it('[readme] should be export the load', function() {
-      var exported = readme["export"]();
+      var exported = readme["export"]().corpus;
       assert(exported.i         === 1);
       assert(exported.am        === 1);
       assert(exported.going     === 2);
@@ -81,7 +81,7 @@ describe('spell', function(){
           , "park"  : 1
           }
       });
-      exported = dict["export"]();
+      exported = dict["export"]().corpus;
       assert(exported.i     === 1);
       assert(exported.am    === 1);
       assert(exported.going === 1);
@@ -95,11 +95,20 @@ describe('spell', function(){
         ;
       dict.load("One Two Three.");
       dict.load({"corpus": "four", "reset": false });
-      exported = dict["export"]();
+      exported = dict["export"]().corpus;
       assert(exported.one   === 1);
       assert(exported.two   === 1);
       assert(exported.three === 1);
       assert(exported.four  === 1);
+    });
+    it('[iso] load and export should work together', function () {
+      var dict    = spell()
+        , another = spell()
+        , exported
+        ;
+      dict.load({"corpus": "four"});
+      another.load(dict['export']());
+      assert(JSON.stringify(another['export']() === dict['export']()));
     });
     it('[readme] load with reseting', function() {
       var dict = spell()
@@ -107,7 +116,7 @@ describe('spell', function(){
         ;
       dict.load("One Two Three.");
       dict.load({"corpus": "four", "reset": true });
-      exported = dict["export"]();
+      exported = dict["export"]().corpus;
       assert(exported.one   !== 1);
       assert(exported.two   !== 1);
       assert(exported.three !== 1);
@@ -119,7 +128,7 @@ describe('spell', function(){
         ;
       dict.load("One Two Three.");
       dict.load("four", { "reset": false });
-      exported = dict["export"]();
+      exported = dict["export"]().corpus;
       assert(exported.one   === 1);
       assert(exported.two   === 1);
       assert(exported.three === 1);
@@ -134,7 +143,7 @@ describe('spell', function(){
         ;
       dict.load("One Two Three.");
       dict.add_word("Four");
-      exported = dict["export"]();
+      exported = dict["export"]().corpus;
       assert(exported.one   === 1);
       assert(exported.two   === 1);
       assert(exported.three === 1);
@@ -145,7 +154,7 @@ describe('spell', function(){
         , exported
         ;
       dict.add_word("Four", {score: 500});
-      exported = dict["export"]();
+      exported = dict["export"]().corpus;
       assert(exported.four  === 500);
     });
     it('[readme] add word with integer', function() {
@@ -153,7 +162,7 @@ describe('spell', function(){
         , exported
         ;
       dict.add_word("test", 500);
-      exported = dict["export"]();
+      exported = dict["export"]().corpus;
       assert(exported.test === 500);
     });
     it('[readme] add word with string', function() {
@@ -161,7 +170,7 @@ describe('spell', function(){
         , exported
         ;
       dict.add_word("test", "500");
-      exported = dict["export"]();
+      exported = dict["export"]().corpus;
       assert(exported.test === 500);
     });
   });
@@ -173,7 +182,7 @@ describe('spell', function(){
         ;
       dict.load('the game');
       dict.remove_word("the");
-      exported = dict["export"]();
+      exported = dict["export"]().corpus;
       assert(exported.game  === 1);
       assert(exported.the   === undefined);
     });
@@ -186,7 +195,7 @@ describe('spell', function(){
         ;
       dict.load({corpus: readme["export"]()});
       dict.reset();
-      exported = JSON.stringify(dict["export"]());
+      exported = JSON.stringify(dict["export"]().corpus);
       assert(exported   === '{}');
     });
   });
@@ -247,8 +256,8 @@ describe('spell', function(){
       dict.load("tucano second skin", {store: true});
       dict_clone     = spell(storage);
       dict_not_clone = spell();
-      exported           = dict_clone["export"]();
-      exported_not_clone = dict_not_clone["export"]();
+      exported           = dict_clone["export"]().corpus;
+      exported_not_clone = dict_not_clone["export"]().corpus;
       assert(exported.tucano   === 1);
       assert(exported.second   === 1);
       assert(exported.skin     === 1);
