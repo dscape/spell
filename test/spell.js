@@ -220,6 +220,16 @@ describe('spell', function(){
         ;
       assert(suggest[0].word  === readme.lucky("the"));
     });
+    it('[npm] should be able to suggest w/ customer alphabets', function () {
+      var npm     = spell()
+        , suggest
+        ;
+      npm.load({corpus: {"uglify": 1, "uglify-js": 1}});
+      suggest = npm.suggest('uglifyjs',
+        "abcdefghijklmnopqrstuvwxyz-".split(""));
+      assert(suggest[0]. word === 'uglify-js');
+      assert(suggest[0].score === 1);
+    });
   });
 
   describe('#lucky()', function(){

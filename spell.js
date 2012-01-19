@@ -56,8 +56,9 @@ function spell_train(corpus,regex) {
   }
 }
 
-function spell_edits(word) {
-  var edits = []
+function spell_edits(word, alphabetOverride) {
+  var edits        = []
+    , thisAlphabet = alphabetOverride ? alphabetOverride : alphabet
     , i
     , j
     ;
@@ -69,13 +70,13 @@ function spell_edits(word) {
       word.slice(i, i+1) + word.slice(i+2));
   }
   for (i=0; i < word.length; i++) {  // alteration
-    for(j in alphabet) { 
-      edits.push(word.slice(0, i) + alphabet[j] + word.slice(i+1)); 
+    for(j in thisAlphabet) { 
+      edits.push(word.slice(0, i) + thisAlphabet[j] + word.slice(i+1)); 
     }
   }
   for (i=0; i <= word.length; i++) { // insertion
-    for(j in alphabet) { 
-      edits.push(word.slice(0, i) + alphabet[j] + word.slice(i));
+    for(j in thisAlphabet) { 
+      edits.push(word.slice(0, i) + thisAlphabet[j] + word.slice(i));
     }
   }
   return edits;
@@ -230,15 +231,19 @@ function spell_remove_word(word,opts) {
  *
  * @param {word:string:required} 
  *        the word you want to spell check
+ * @param {alphabet:array:optional}
+ *        if you need to override checking for just words you can set this
+ *        and it will enable you to make suggestions that include punctiation
+*         etc
  *
  * @return {array} ordered array containing json objects such as
  *                 [{"word": "spelling", "score": 10}]
  */
-function spell_suggest(word) {
+function spell_suggest(word, alphabet) {
   if (dict.hasOwnProperty(word)) {
     return [{"word":word, "score": dict[word]}]; 
   }
-  var edits1     = spell_edits(word)
+  var edits1     = spell_edits(word, alphabet)
     , candidates = {}
     , min
     , max
@@ -260,7 +265,7 @@ function spell_suggest(word) {
   edits1.forEach(get_candidates);
   if(!is_empty(candidates)) { return spell_order(candidates,min,max); }
   edits1.forEach(function(edit1){
-    spell_edits(edit1).forEach(get_candidates);
+    spell_edits(edit1, alphabet).forEach(get_candidates);
   });
   if(!is_empty(candidates)) { return spell_order(candidates,min,max); }
   return []; // no suggestions
@@ -276,11 +281,15 @@ function spell_suggest(word) {
  *
  * @param {word:string:required} 
  *        the word you want to spell check
+ * @param {alphabet:array:optional}
+ *        if you need to override checking for just words you can set this
+ *        and it will enable you to make suggestions that include punctiation
+ *         etc
  *
  * @return {string} the most likely match
  */
-function spell_lucky(word) {
-  var suggest = spell_suggest(word)[0];
+function spell_lucky(word, alphabet) {
+  var suggest = spell_suggest(word, alphabet)[0];
   if(suggest && suggest.hasOwnProperty("word")) {
     return suggest.word;
   }

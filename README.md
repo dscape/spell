@@ -103,6 +103,19 @@ finally when adding words you can optionally give it a score:
 dict.add_word('beer', {score: 100});
 ```
 
+if you are working with words that include punctuation in your dictionary you might need to override the alphabet that is being used. e.g. you might want to add `.` & `@` if you have a dictionary of email address. you can do that by:
+
+``` js
+// instantiate a new dictionary
+var dict = spell();
+// load text into dictionary so we can train the dictionary to know
+// which words exists and which ones are more frequent than others
+dict.load("nuno@dino.saur pedro@space.ship");
+console.log(dict.suggest('nuno@dino.sau',
+  "abcdefghijklmnopqrstuvwxyz.@".split("")
+));
+```
+
 ## storage
 
 by default `dict` is stored in process (memory) for each dictionary instance you create. however if you feel like storing the dictionary externally, or use a shared dictionary, you can:
