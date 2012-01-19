@@ -298,7 +298,7 @@ function spell_lucky(word) {
  * @return {json} dictionary
  */
 function spell_export(word) {
-  return dict;
+  return {corpus: dict};
 }
 
 return { reset       : spell_reset
