@@ -42,7 +42,7 @@ feeling lucky?
 dict.lucky('thew');
 ```
 
-returns:
+returns
 
 ``` js
 "the"
