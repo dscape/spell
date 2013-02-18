@@ -28,7 +28,7 @@ dict.load("I am going to the park with Theo today. It's going to be the bomb");
 console.log(dict.suggest('thew'));
 ```
 
-normally you would generate the dictionary once and then use it to this code is unlikely  and serves for demonstration purposes only. this should log:
+normally you would generate the dictionary once and then re-use it so this code is unlikely  and serves for demonstration purposes only. this should log:
 
 ``` js
 [{"word": "the", "score": 2}, {"word": "theo", "score": 1}]
