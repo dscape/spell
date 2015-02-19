@@ -46,13 +46,15 @@ function spell_store(cb) {
   }
 }
 
-function spell_train(corpus,regex) {
+function spell_train(corpus,regex,opts) {
   var match, word;
   regex         = regex || /[a-z]+/g;
   corpus        = corpus.toLowerCase();
+  opts          = opts || {};
   while ((match = regex.exec(corpus))) {
     word        = match[0];
-    spell_add_word(word, 1);
+    opts.score = 1;
+    spell_add_word(word, opts);
   }
 }
 
@@ -157,9 +159,10 @@ function spell_load(corpus, opts) {
   if(opts.reset) { dict  = {}; }
   if('object' === typeof opts.corpus) {
     for(var key in opts.corpus) { 
-      spell_add_word(key, {score: opts.corpus[key]}); 
+      opts.score = opts.corpus[key];
+      spell_add_word(key, opts);
     }
-  } else { spell_train(opts.corpus); }
+  } else { spell_train(opts.corpus, null, opts); }
   if(opts.store) { spell_store(opts.after_store); }
 }
 
@@ -188,7 +191,7 @@ function spell_add_word(word, opts) {
   }
   opts        = 'object' === typeof opts ? opts : {};
   opts.score  = opts.score  || 1;
-  opts.store  = opts.store  || true;
+  opts.store  = (false !== opts.store);
   opts.done   = opts.done   || noop;
   word        = word.toLowerCase();
   dict[word]  = 
