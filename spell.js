@@ -151,7 +151,7 @@ function spell_load(corpus, opts) {
   if ('string' === typeof opts)   { opts = {corpus: opts }; }
   opts               = 'object' === typeof opts ? opts : {};
   opts.reset         = (opts.reset !== false);
-  opts.store         = (opts.score !== false);
+  opts.store         = (opts.store !== false);
   opts.after_store   = opts.after_store   || noop;
   opts.corpus        = opts.corpus        || '';
   if(opts.reset) { dict  = {}; }
