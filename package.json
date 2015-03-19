@@ -1,22 +1,32 @@
-{ "name"            : "spell"
-, "description"     : "javascript dictionary module for node.js, and the browser"
-, "homepage"        : "http://github.com/dscape/spell"
-, "repository"      : "git://github.com/dscape/spell"
-, "version"         : "0.3.0"
-, "author"          : "Nuno Job <nunojobpinto@gmail.com> (http://nunojob.com)"
-, "contributors"    :
-  [ "Pedro Teixeira <pedro.teixeira@gmail.com> (http://metaduck.com)" ]
-, "keywords"        : 
-  ["spell", "speller", "dictionary", "nlp", "dict", "spell check"]
-, "devDependencies" : { "mocha": "0.3.6", "should": "0.3.2" }
-, "main"            : "./spell.js"
-, "scripts"         : 
-  { "test" : 
-      "./node_modules/mocha/bin/mocha --globals _test_spell -r should test/spell.js"
-  , "perf1" :
-    "node --prof --trace-opt --trace-bailout --trace-deopt test/perf.js 1"
-  , "perf2" :
-    "node --prof --trace-opt --trace-bailout --trace-deopt test/perf.js 2"
+{
+  "name": "spell",
+  "description": "javascript dictionary module for node.js, and the browser",
+  "homepage": "http://github.com/dscape/spell",
+  "repository": "git://github.com/dscape/spell",
+  "version": "1.0.0",
+  "author": "Nuno Job <nunojobpinto@gmail.com> (http://nunojob.com)",
+  "contributors": [
+    "Pedro Teixeira <pedro.teixeira@gmail.com> (http://metaduck.com)"
+  ],
+  "keywords": [
+    "spell",
+    "speller",
+    "dictionary",
+    "nlp",
+    "dict",
+    "spell check"
+  ],
+  "devDependencies": {
+    "mocha": "0.3.6",
+    "should": "0.3.2"
+  },
+  "main": "./spell.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha --globals _test_spell -r should test/spell.js",
+    "perf1": "node --prof --trace-opt --trace-bailout --trace-deopt test/perf.js 1",
+    "perf2": "node --prof --trace-opt --trace-bailout --trace-deopt test/perf.js 2"
+  },
+  "engines": {
+    "node": ">=0.3.6"
   }
-, "engines"         : { "node": ">=0.3.6" }
 }
