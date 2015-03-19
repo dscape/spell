@@ -151,7 +151,7 @@ function spell_load(corpus, opts) {
   if ('string' === typeof opts)   { opts = {corpus: opts }; }
   opts               = 'object' === typeof opts ? opts : {};
   opts.reset         = (opts.reset !== false);
-  opts.store         = (opts.score !== false);
+  opts.store         = (opts.store !== false);
   opts.after_store   = opts.after_store   || noop;
   opts.corpus        = opts.corpus        || '';
   if(opts.reset) { dict  = {}; }
@@ -215,7 +215,7 @@ function spell_add_word(word, opts) {
  */
 function spell_remove_word(word,opts) {
   opts        = 'object' === typeof opts ? opts : {};
-  opts.store  = (opts.score !== false);
+  opts.store  = (opts.store !== false);
   opts.done   = opts.done   || noop;
   if (dict.hasOwnProperty(word)) { delete dict[word]; }
   if(opts.store) { spell_store(opts.done); }
