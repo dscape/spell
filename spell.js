@@ -37,7 +37,7 @@
 var dict          = 
     dict_store && typeof dict_store.get === 'function' ? dict_store.get() : {}
   , noop          = function(){}
-  , alphabet      = "abcdefghijklmnopqrstuvwxyz".split("")
+  , alphabet      = "abcdefghijklmnopqrstuvwxyzáéíóúñäëïöüàèìòùâêîôûç".split("")
   ;
 
 function spell_store(cb) { 
@@ -48,7 +48,7 @@ function spell_store(cb) {
 
 function spell_train(corpus,regex) {
   var match, word;
-  regex         = regex || /[a-z]+/g;
+  regex         = regex || /[a-záéíóúñäëïöüàèìòùâêîôûç]+/g;
   corpus        = corpus.toLowerCase();
   while ((match = regex.exec(corpus))) {
     word        = match[0];
