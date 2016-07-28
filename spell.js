@@ -37,7 +37,7 @@
 var dict          = 
     dict_store && typeof dict_store.get === 'function' ? dict_store.get() : {}
   , noop          = function(){}
-  , alphabet      = "abcdefghijklmnopqrstuvwxyz".split("")
+  , alphabet      = "abcdefghijklmnopqrstuvwxyzáéíóúñäëïöüàèìòùâêîôûç".split("")
   ;
 
 function spell_store(cb) { 
@@ -48,7 +48,7 @@ function spell_store(cb) {
 
 function spell_train(corpus,regex) {
   var match, word;
-  regex         = regex || /[a-z]+/g;
+  regex         = regex || /[a-záéíóúñäëïöüàèìòùâêîôûç]+/g;
   corpus        = corpus.toLowerCase();
   while ((match = regex.exec(corpus))) {
     word        = match[0];
@@ -310,6 +310,24 @@ function spell_export(word) {
   return {corpus: dict};
 }
 
+/*
+ * check
+ *
+ * returns true or false for a given word if exists in dictionary
+ *
+ * e.g.
+ * spell.check('speling');
+ *
+ * @param {word:string:required}
+ *        the word you want to spell check
+ *
+ * @return {boolean}
+ *                 false
+ */
+function spell_check(word) {
+  return dict.hasOwnProperty(word);
+}
+
 return { reset       : spell_reset
        , load        : spell_load
        , "export"    : spell_export
@@ -319,6 +337,7 @@ return { reset       : spell_reset
        , remove_word : spell_remove_word
        , removeWord  : spell_remove_word  // alias
        , suggest     : spell_suggest
+       , check       : spell_check
        , lucky       : spell_lucky
        };
   };
